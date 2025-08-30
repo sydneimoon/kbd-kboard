@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/res-auto">
+
+    <Preference android:title="Enable kboard" >
+        <intent android:action="android.settings.INPUT_METHOD_SETTINGS"
+            />
+    </Preference>
+
+
+    <Preference android:title="Custom Keys" >
+        <intent android:action="com.adgad.kboard.CustomKeysActivity"/>
+    </Preference>
+    <Preference android:title="Import Keys"  android:key="importKeys"/>
+    <Preference android:title="Export Keys"  android:key="exportKeys"/>
+
+    <PreferenceCategory
+        android:title="Options">
+
+        <org.xdty.preference.ColorPreference
+            android:key="bgcolor"
+            android:title="Background Color"
+            tools:dialogTitle="Background Color"
+            tools:colors="@array/bg_colors"
+            tools:columns="5"
+            tools:material="true"
+            android:defaultValue="@color/md_teal500"/>
+
+        <org.xdty.preference.ColorPreference
+            android:key="pressedcolor"
+            android:title="Key Pressed Color"
+            tools:dialogTitle="Key Pressed Color"
+            tools:colors="@array/bg_colors"
+            tools:columns="5"
+            tools:material="true"
+            android:defaultValue="@color/md_teal200"/>
+
+        <org.xdty.preference.ColorPreference
+            android:key="textcolor"
+            android:title="Text Color"
+            tools:dialogTitle="Text Color"
+            tools:colors="@array/text_colors"
+            tools:columns="5"
+            tools:material="true"
+            android:defaultValue="@color/md_black"/>
+
+        <CheckBoxPreference
+            android:key="textBold"
+            android:title="Bold Keys"
+            android:defaultValue="true"
+            android:summary="Keyboard font is bold."
+            />
+        <ListPreference
+            android:key="rows"
+            android:title="Number of Rows"
+            android:entries="@array/rows"
+            android:entryValues="@array/rows"/>
+        <ListPreference
+            android:key="fontsize"
+            android:title="Font Size"
+            android:entries="@array/fontsizes"
+            android:entryValues="@array/fontsizes"/>
+        <CheckBoxPreference
+            android:key="spacing"
+            android:title="Key border"
+            android:defaultValue="false"
+            android:summary="Show border around keys."
+            />
+        <CheckBoxPreference
+            android:key="autospace"
+            android:title="Auto-space words"
+            android:defaultValue="true"
+            android:summary="Add spaces between words if for some bizarre reason you need multiple words."
+            />
+        <CheckBoxPreference
+            android:key="autosend"
+            android:title="Auto-send words"
+            android:defaultValue="false"
+            android:summary="Try and send automatically after each word (if the app supports it)."
+            />
+        <CheckBoxPreference
+            android:key="vibrate_on"
+            android:title="Vibrate on Keypress"
+            android:defaultValue="false"
+            android:persistent="true" />
+        <CheckBoxPreference
+            android:key="sound_on"
+            android:title="Sound on Keypress"
+            android:defaultValue="false"
+            android:persistent="true" />
+        <CheckBoxPreference
+            android:key="passive_aggressive"
+            android:title="Passive Aggressive."
+            android:summary="Automatically capitalize words and end with full stops."
+            android:defaultValue="false"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">kboard</string>
+    <string name="kboard_ime">kboard</string>
+    <string name="settings_name">kboard Settings</string>
+    <string name="label_keyboard_key_go">Go</string>
+    <string name="label_keyboard_key_send">Send</string>
+    <string name="label_keyboard_key_search">Search</string>
+    <string name="label_keyboard_key_next">Next</string>
+    <string name="label_keyboard_key_enter">\u21b5</string>
+    <string name="title_activity_macro_help">MacroHelpActivity</string>
+    <string name="accessibility_service_description">Kboard Accessibility - used for getting the current user name in chat apps</string>
+</resources>
