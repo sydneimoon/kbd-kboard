@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class CustomKeysActivity extends Activity implements AddWordDialogFragment.AddWordDialogListener {
 
-
     private final Gson gson = new Gson();
     private RecyclerListAdapter adapter;
 
@@ -32,8 +31,6 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
      * fragment (e.g. upon screen orientation changes).
      */
     public CustomKeysActivity() {
-
-
     }
 
     @Override
@@ -63,7 +60,6 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
                                           @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                         final int fromPos = viewHolder.getAdapterPosition();
                         final int toPos = target.getAdapterPosition();
-
                         adapter.swap(fromPos, toPos);
                         return true;// true if moved, false otherwise
                     }
@@ -73,7 +69,6 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
                     }
                 });
 
-
         recyclerView.setAdapter(adapter);
         mIth.attachToRecyclerView(recyclerView);
         FloatingActionButton myFab = findViewById(R.id.myFab);
@@ -82,19 +77,18 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
                 showAddDialog(-1, null);
             }
         });
-
     }
 
-
     private void showAddDialog(int index, String word) {
+        final int keyCount = adapter.getItemCount();
         DialogFragment newFragment = new AddWordDialogFragment();
         Bundle args = new Bundle();
+        args.putInt("keyCount", keyCount);
         args.putInt("index", index);
         args.putString("word", word);
         newFragment.setArguments(args);
         newFragment.show(getFragmentManager(), "new_word");
     }
-
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int index) {
@@ -105,7 +99,6 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
                 adapter.set(index, t.getText().toString());
             } else {
                 adapter.add(t.getText().toString());
-
             }
         }
         dialog.dismiss();
@@ -113,7 +106,7 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog, int index) {
-        if(index > 0) {
+        if(index >= 0) {
             adapter.remove(index);
         }
         dialog.dismiss();
@@ -140,10 +133,12 @@ public class CustomKeysActivity extends Activity implements AddWordDialogFragmen
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.prefs_menu, menu);
         return true;
     }
+
 }

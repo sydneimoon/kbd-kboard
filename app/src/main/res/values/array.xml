@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="background_default">#bb11120f</color>
+    <color name="pressed_default">#15c0e6ad</color>
+    <color name="foreground_default">#6f7a69</color>
+
     <color name="md_red50">#ffffebee</color>
     <color name="md_red100">#ffffcdd2</color>
     <color name="md_red200">#ffef9a9a</color>

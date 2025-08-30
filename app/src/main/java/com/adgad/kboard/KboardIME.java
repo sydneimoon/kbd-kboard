@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-
+import android.view.Window;
 
 import com.google.gson.Gson;
 
@@ -25,10 +25,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-
-/**
- * Created by arjun on 11/03/15.
- */
 public class KboardIME  extends InputMethodService
     implements KboardView.OnKeyboardActionListener,
     SharedPreferences.OnSharedPreferenceChangeListener{
@@ -40,7 +36,6 @@ public class KboardIME  extends InputMethodService
     private KBoard keyboard;
     private Vibrator vib;
     private List<Keyboard.Key> mKeys;
-
     private List<String> keys;
     private boolean mPassiveAggressive;
     private boolean mAutoSpace;
@@ -53,16 +48,9 @@ public class KboardIME  extends InputMethodService
     private int mKeysPerScreen = 12;
     private int mKeysPerRow = 4;
 
-
-
-    /**
-     * Main initialization of the input method component.  Be sure to call
-     * to super class.
-     */
     @Override public void onCreate() {
         super.onCreate();
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
-
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.registerOnSharedPreferenceChangeListener(this);
@@ -82,17 +70,16 @@ public class KboardIME  extends InputMethodService
         setKeys();
     }
 
-
     private void setKeys() {
         Gson gson = new Gson();
-
         String defaultJson = gson.toJson(Keys.getDefault());
         String keysAsString = sharedPref.getString(Keys.STORAGE_KEY, defaultJson);
         keys = gson.fromJson(keysAsString, ArrayList.class);
         totalScreens = (int)Math.ceil((double)keys.size() / (mRows * mKeysPerRow));
-
     }
-    @Override public void onInitializeInterface() {
+
+    @Override
+    public void onInitializeInterface() {
         setKeyboard();
     }
 
@@ -121,15 +108,26 @@ public class KboardIME  extends InputMethodService
         setKeyboard();
         kv = (KboardView)getLayoutInflater().inflate(R.layout.material_dark, null);
         kv.setKeyboard(keyboard);
-        kv.setBackgroundColor(getResources().getColor(R.color.white));
+        //kv.setBackgroundColor(getResources().getColor(R.color.white));
+        kv.setBackgroundColor(0x00000000);
         kv.setPreviewEnabled(false);
         kv.setOnKeyboardActionListener(this);
         return kv;
     }
 
-    @Override public void onStartInput(EditorInfo attribute, boolean restarting) {
+    @Override
+    public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         keyboard.setImeOptions(this, attribute.imeOptions);
+
+        int bgColor = sharedPref.getInt("bgcolor", R.color.background_default);
+        boolean spacing = sharedPref.getBoolean("spacing", false);
+        Window window = getWindow().getWindow();
+        if (spacing) {
+            window.setNavigationBarColor(0x00000000);
+        } else {
+            window.setNavigationBarColor(bgColor);
+        }
     }
 
     private String getKeyString(int code) {
@@ -146,7 +144,6 @@ public class KboardIME  extends InputMethodService
             return "";
         }
     }
-
 
     private void resetKeyChars() {
         String newString;
@@ -189,14 +186,11 @@ public class KboardIME  extends InputMethodService
         if(mSoundOnClick) {
             playClick();
         }
-
         if(mVibrateOnClick) {
             vibrate();
         }
-
         switch(primaryCode) {
             case -5: //backspace
-
                 commands.d(1);
                 break;
             case -6: //MAD
@@ -243,20 +237,19 @@ public class KboardIME  extends InputMethodService
 
     public void switchIME() {
         //final String LATIN = "com.android.inputmethod.latin/.LatinIME";
-// 'this' is an InputMethodService
-            try {
-                InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                final IBinder token = Objects.requireNonNull(this.getWindow().getWindow()).getAttributes().token;
-                //imm.setInputMethod(token, LATIN);
-                imm.switchToNextInputMethod(token, false);
-            } catch (Throwable t) { // java.lang.NoSuchMethodError if API_level<11
-                mInputMethodManager.showInputMethodPicker();
-                Log.e(TAG, "cannot set the previous input method:");
-                t.printStackTrace();
-            }
-
-
+        // 'this' is an InputMethodService
+        try {
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            final IBinder token = Objects.requireNonNull(this.getWindow().getWindow()).getAttributes().token;
+            //imm.setInputMethod(token, LATIN);
+            imm.switchToNextInputMethod(token, false);
+        } catch (Throwable t) { // java.lang.NoSuchMethodError if API_level<11
+            mInputMethodManager.showInputMethodPicker();
+            Log.e(TAG, "cannot set the previous input method:");
+            t.printStackTrace();
+        }
     }
+
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
     }
@@ -286,7 +279,6 @@ public class KboardIME  extends InputMethodService
     @Override
     public void swipeRight() {
         switchScreens();
-
     }
 
     @Override
@@ -324,8 +316,8 @@ public class KboardIME  extends InputMethodService
                 defaultKeys.add("/ⓐⓑⓒ!ds,fancy(circle)");
                 defaultKeys.add("/𝚊𝚋𝚌!ds,fancy(monospace)");
                 defaultKeys.add("/𝕒𝕓𝕔!ds,fancy(double)");
-                defaultKeys.add("/𝔞𝔟𝔠!ds,fancy(fancy)");
-                defaultKeys.add("/𝖆𝖇𝖈!ds,fancy(fancybold)");
+                defaultKeys.add("/𝔞𝔟𝔠!ds,fancy(grunge)");
+                defaultKeys.add("/𝖆𝖇𝖈!ds,fancy(grungebold)");
             }
 
             defaultKeys.add("/catfact!curl(https://kboard-api.glitch.me/catfact");

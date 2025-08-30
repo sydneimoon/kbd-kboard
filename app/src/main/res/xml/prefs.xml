@@ -24,7 +24,7 @@
             tools:colors="@array/bg_colors"
             tools:columns="5"
             tools:material="true"
-            android:defaultValue="@color/md_teal500"/>
+            android:defaultValue="@color/background_default"/>
 
         <org.xdty.preference.ColorPreference
             android:key="pressedcolor"
@@ -33,7 +33,7 @@
             tools:colors="@array/bg_colors"
             tools:columns="5"
             tools:material="true"
-            android:defaultValue="@color/md_teal200"/>
+            android:defaultValue="@color/pressed_default"/>
 
         <org.xdty.preference.ColorPreference
             android:key="textcolor"
@@ -42,7 +42,7 @@
             tools:colors="@array/text_colors"
             tools:columns="5"
             tools:material="true"
-            android:defaultValue="@color/md_black"/>
+            android:defaultValue="@color/foreground_default"/>
 
         <CheckBoxPreference
             android:key="textBold"
